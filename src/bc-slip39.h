@@ -13,5 +13,7 @@
 #include "slip39-errors.h"
 #include "mnemonics.h"
 #include "encoding.h"
+#include "encrypt.h"
+#include "rs1024.h"
 
 #endif /* BC_SLIP39_H */

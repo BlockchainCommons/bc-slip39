@@ -11,6 +11,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 //////////////////////////////////////////////////
 // slip39 words
@@ -197,4 +198,3 @@ int32_t from_words(
 
     return byte;
 }
-

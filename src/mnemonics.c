@@ -11,7 +11,7 @@
 #include "encrypt.h"
 #include "slip39-errors.h"
 
-#include "bc-shamir.h"
+#include <bc-shamir/bc-shamir.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -516,7 +516,7 @@ int combine_mnemonics(
     uint32_t buffer_length      // total amount of working space
 ) {
     int result = 0;
-    
+
     if(mnemonics_shards == 0) {
         return ERROR_EMPTY_MNEMONIC_SET;
     }

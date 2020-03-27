@@ -1,0 +1,89 @@
+# @configure_input@
+
+#
+#  Makefile.in
+#
+#  Copyright © 2020 by Blockchain Commons, LLC
+#  Licensed under the "BSD-2-Clause Plus Patent License"
+#
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
+libname = lib$(package).a
+
+# Prefix-specific substitution variables
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+
+# VPATH-specific substitution variables
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+CFLAGS = -g -O0
+ARFLAGS = rcs
+
+OBJS = encoding.o encrypt.o mnemonics.o rs1024.o
+
+.PHONY: all
+all: $(libname) test
+
+$(libname): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
+
+encoding.o: encoding.h wordlist-english.h util.h
+encrypt.o: encrypt.h
+mnemonics.o: mnemonics.h util.h shard.h group.h encoding.h rs1024.h slip39-errors.h
+
+TEST_OBJS = test.o test-utils.o
+LDFLAGS = -lbc-crypto-base -lbc-shamir
+
+test: $(libname) $(TEST_OBJS)
+
+test.o: test-utils.h
+test-utils.o: test-utils.h
+
+.PHONY: check
+check: all
+	./test
+	@echo "*** ALL TESTS PASSED ***"
+
+HEADERS = bc-slip39.h encoding.h encrypt.h group.h mnemonics.h rs1024.h shard.h slip39-errors.h util.h
+
+libdir = $(DESTDIR)/$(prefix)/lib
+includedir = $(DESTDIR)/$(prefix)/include/$(package)
+
+.PHONY: install
+install: $(libname)
+	install -d $(libdir)
+	install $(libname) $(libdir)
+	install -d $(includedir)
+	install $(HEADERS) $(includedir)
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(libdir)/$(libname)
+	rm -f $(includedir)/bc-slip39.h
+	rm -f $(includedir)/slip39-errors.h
+	rm -f $(includedir)/mnemonics.h
+	rm -f $(includedir)/util.h
+	rm -f $(includedir)/group.h
+	rm -f $(includedir)/shard.h
+	rm -f $(includedir)/encoding.h
+	rm -f $(includedir)/encrypt.h
+	rm -f $(includedir)/rs1024.h
+	-rmdir $(libdir) >/dev/null 2>&1
+	-rmdir $(includedir) >/dev/null 2>&1
+
+.PHONY: clean
+clean:
+	rm -rf $(libname)
+	rm -f $(OBJS)
+	rm -f test $(TEST_OBJS)
+	rm -rf *.dSYM
+
+.PHONY: distclean
+distclean: clean
+	rm -f Makefile
