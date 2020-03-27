@@ -1,6 +1,6 @@
-# Blockchain Commons `$projectname`
+# [Blockchain Commons SLIP-39](https://github.com/BlockchainCommons/bc-slip39)
 
-**`$projectdescription`**
+**Implementation of SLIP-39 Shamir Secret Sharing standard for use in [Blockchain Commons](https://www.BlockchainCommons.com) Software Projects**
 
 ## Origin, Authors, Copyright & Licenses
 
