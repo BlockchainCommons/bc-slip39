@@ -14,8 +14,8 @@
 #include "group.h"
 
 #define METADATA_LENGTH_WORDS 7
-#define MIN_MNEMONIC_LENGTH_WORDS (METADATA_LENGTH_WORDS + bytes_to_words(MIN_STRENGTH_BYTES) )
 #define MIN_STRENGTH_BYTES 16
+#define MIN_MNEMONIC_LENGTH_WORDS (METADATA_LENGTH_WORDS + slip39_word_count_for_bytes(MIN_STRENGTH_BYTES) )
 
 /**
  * encrypt the share value of a shard
@@ -63,7 +63,7 @@ void decrypt_shard(
  *                     mnemonics[i*mnemonic_length]..mnemonics[(i+1)*mnemonic_length -1]
  *         buffer_size: maximum number of mnemonics code to write to the mnemonics array
  */
-int generate_mnemonics(
+int slip39_generate(
     uint8_t group_threshold,
     const group_descriptor *groups,
     uint8_t groups_length,
@@ -96,7 +96,7 @@ int generate_mnemonics(
  *         buffer: location to store the result
  *         buffer_length: maximum space available in buffer
  */
-int combine_mnemonics(
+int slip39_combine(
     const uint16_t **mnemonics, // array of pointers to 10-bit words
     uint32_t mnemonics_words,   // number of words in each shard
     uint32_t mnemonics_shards,  // total number of shards

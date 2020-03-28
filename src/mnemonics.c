@@ -11,7 +11,7 @@
 #include "encrypt.h"
 #include "slip39-errors.h"
 
-#include "bc-shamir.h"
+#include <bc-shamir/bc-shamir.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -38,7 +38,7 @@ int encode_mnemonic(
     destination[2] = ((shard->group_index << 6) | (gt << 2) | (gc >> 2)) & 1023;
     destination[3] = ((gc << 8) | (mi << 4) | (mt)) & 1023;
 
-    uint32_t words = to_words(shard->value, shard->value_length, destination+4, destination_length - METADATA_LENGTH_WORDS);
+    uint32_t words = slip39_words_for_data(shard->value, shard->value_length, destination+4, destination_length - METADATA_LENGTH_WORDS);
     rs1024_create_checksum(destination, words + METADATA_LENGTH_WORDS);
 
     return words+METADATA_LENGTH_WORDS;
@@ -73,7 +73,7 @@ int decode_mnemonic(
     shard->group_count = group_count;
     shard->member_index = (mnemonic[3]>>4) & 15;
     shard->member_threshold = (mnemonic[3]&15) + 1;
-    int32_t result = from_words(mnemonic+4, mnemonic_length - 7, shard->value, 32);
+    int32_t result = slip39_data_for_words(mnemonic+4, mnemonic_length - 7, shard->value, 32);
     if(result < 0) {
         return result;
     }
@@ -114,7 +114,7 @@ void print_mnemonic(
     shard.value_length = secret_length;
 
     for(unsigned int i=0;i< mnemonic_length; ++i) {
-        printf("%s ", slip39_word(mnemonic[i]));
+        printf("%s ", slip39_string_for_word(mnemonic[i]));
     }
 
     printf("\n");
@@ -259,7 +259,7 @@ int generate_shards(
 //////////////////////////////////////////////////
 // generate mnemonics
 //
-int generate_mnemonics(
+int slip39_generate(
     uint8_t group_threshold,
     const group_descriptor *groups,
     uint8_t groups_length,
@@ -284,7 +284,7 @@ int generate_mnemonics(
 
     // figure out how much space we need to store all of the mnemonics
     // and make sure that we were provided with sufficient resources
-    uint32_t shard_length = METADATA_LENGTH_WORDS + bytes_to_words(master_secret_length);
+    uint32_t shard_length = METADATA_LENGTH_WORDS + slip39_word_count_for_bytes(master_secret_length);
     if(buffer_size < shard_length * total_shards) {
         return ERROR_INSUFFICIENT_SPACE;
     }
@@ -362,7 +362,7 @@ int combine_shards(
 /**
  * This version of combine shards potentially modifies the shard structures
  * in place, so it is for internal use only, however it provides the implementation
- * for both combine_shards and combine_mnemonics.
+ * for both combine_shards and slip39_combine.
  */
 int combine_shards_internal(
     slip39_shard *shards,       // array of shard structures
@@ -505,8 +505,8 @@ int combine_shards_internal(
 
 
 /////////////////////////////////////////////////
-// combine_mnemonics
-int combine_mnemonics(
+// slip39_combine
+int slip39_combine(
     const uint16_t **mnemonics, // array of pointers to 10-bit words
     uint32_t mnemonics_words,   // number of words in each shard
     uint32_t mnemonics_shards,  // total number of shards
@@ -516,7 +516,7 @@ int combine_mnemonics(
     uint32_t buffer_length      // total amount of working space
 ) {
     int result = 0;
-    
+
     if(mnemonics_shards == 0) {
         return ERROR_EMPTY_MNEMONIC_SET;
     }

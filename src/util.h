@@ -8,9 +8,9 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#define RADIX_BITS 10
+#include <stddef.h>
 
-#define bytes_to_words(n)  ( ( (n) * 8 + RADIX_BITS-1) / RADIX_BITS)
-#define words_to_bytes(n)  ( ( (n) * RADIX_BITS ) / 8)
+size_t slip39_word_count_for_bytes(size_t bytes);
+size_t slip39_byte_count_for_words(size_t words);
 
 #endif /* UTIL_H */

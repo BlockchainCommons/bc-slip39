@@ -6,7 +6,7 @@
 //
 
 #include "encrypt.h"
-#include "commons-hash.h"
+#include <bc-crypto-base/bc-crypto-base.h>
 
 #include <string.h>
 #include <stdio.h>
