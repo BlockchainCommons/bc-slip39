@@ -16,7 +16,7 @@
 //////////////////////////////////////////////////
 // slip39 words
 //
-int16_t lookup(const char *word) {
+int16_t slip39_word_for_string(const char *word) {
     int16_t hi=WORDLIST_SIZE;
     int16_t lo=-1;
 
@@ -34,7 +34,7 @@ int16_t lookup(const char *word) {
     return -1;
 }
 
-const char *slip39_word(int16_t word) {
+const char *slip39_string_for_word(int16_t word) {
     if(word < 1024) {
         return wordlist[word];
     }
@@ -42,7 +42,36 @@ const char *slip39_word(int16_t word) {
     return "";
 }
 
-uint32_t parse_words(
+char* slip39_strings_for_words(
+  const uint16_t* words,
+  size_t words_len
+) {
+  if(words_len == 0) {
+    char* result = malloc(1);
+    result[0] = '\0';
+    return result;
+  }
+
+  size_t result_len = words_len; // space characters + nul
+  const char* strings[words_len];
+  for(int i = 0; i < words_len; i++) {
+    strings[i] = slip39_string_for_word(words[i]);
+    result_len += strlen(strings[i]);
+  }
+  char* result_string = malloc(result_len);
+  result_string[0] = '\0';
+
+  for(int i = 0; i < words_len; i++) {
+    strcat(result_string, strings[i]);
+    if(i != words_len - 1) {
+      strcat(result_string, " ");
+    }
+  }
+
+  return result_string;
+}
+
+uint32_t slip39_words_for_strings(
     const char *words_string,
     uint16_t *words,
     uint32_t words_length
@@ -67,7 +96,7 @@ uint32_t parse_words(
         }
 
         if(j<words_length) {
-            int16_t w = lookup(buf);
+            int16_t w = slip39_word_for_string(buf);
             if(w<0) {
                 printf("%s is not valid.\n", buf);
                 return -1;
@@ -87,7 +116,7 @@ uint32_t parse_words(
 
 // convert a buffer of bytes into 10-bit mnemonic words
 // returns the number of words written or -1 if there was an error
-int32_t to_words(
+int32_t slip39_words_for_data(
     const uint8_t *buffer, // byte buffer to encode into 10-bit words
     uint32_t size,   // buffer size
     uint16_t *words, // destination for words
@@ -115,7 +144,7 @@ int32_t to_words(
 
     uint16_t i = 0;
 
-    if(max < bytes_to_words(size)) {
+    if(max < slip39_word_count_for_bytes(size)) {
         printf("Not enough space to encode into 10-bit words \n");
         return -1;
     }
@@ -138,7 +167,7 @@ int32_t to_words(
 }
 
 // returns the number of bytes written, or -1 if there was an error
-int32_t from_words(
+int32_t slip39_data_for_words(
     const uint16_t *words, // words to decode
     uint32_t wordsize,       // number of words to decode
     uint8_t *buffer,          // space for result
@@ -176,7 +205,7 @@ int32_t from_words(
     uint32_t byte = 0;
     uint16_t i = 0;
 
-    if(size < words_to_bytes(wordsize)) {
+    if(size < slip39_byte_count_for_words(wordsize)) {
         return ERROR_INSUFFICIENT_SPACE;
     }
 

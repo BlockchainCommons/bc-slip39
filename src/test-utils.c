@@ -84,3 +84,47 @@ void fake_random(uint8_t *buf, size_t count) {
     b = b + 17;
   }
 }
+
+uint8_t* alloc_uint8_buffer(size_t len, uint8_t value) {
+  uint8_t* buf = malloc(len);
+  for(int i = 0; i < len; i++) {
+    buf[i] = value;
+  }
+  return buf;
+}
+
+uint16_t* alloc_uint16_buffer(size_t len, uint16_t value) {
+  uint16_t* buf = malloc(len * sizeof(uint16_t));
+  for(int i = 0; i < len; i++) {
+    buf[i] = value;
+  }
+  return buf;
+}
+
+bool equal_uint8_buffers(const uint8_t* buf1, size_t len1, const uint8_t* buf2, size_t len2) {
+  if (len1 != len2) {
+    return false;
+  }
+
+  for(int i = 0; i < len1; i++) {
+    if (buf1[i] != buf2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool equal_uint16_buffers(const uint16_t* buf1, size_t len1, const uint16_t* buf2, size_t len2) {
+  if (len1 != len2) {
+    return false;
+  }
+
+  for(int i = 0; i < len1; i++) {
+    if (buf1[i] != buf2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
