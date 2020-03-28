@@ -2,6 +2,30 @@
 
 **Implementation of SLIP-39 Shamir Secret Sharing standard for use in [Blockchain Commons](https://www.BlockchainCommons.com) Software Projects**
 
+## Prerequisites
+
+* If [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base) is not installed, the `configure` step below will fail.
+* If [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir) is not installed, the `configure` step below will fail.
+
+## Installation
+
+```bash
+$ ./configure
+$ make check
+$ sudo make install
+```
+
+This sequence runs the module's unit tests.
+
+## Use
+
+1. Link against `libbc-slip39.a`, `libbc-shamir.a` and `libbc-crypto-base.a`.
+2. Include the umbrella header in your code:
+
+```c
+#include <bc-slip39/bc-slip39.h>
+```
+
 ## Origin, Authors, Copyright & Licenses
 
 Unless otherwise noted (either in this [/README.md](./README.md) or in the file's header comments) the contents of this repository are Copyright © 2020 by Blockchain Commons, LLC, and are [licensed](./LICENSE) under the [spdx:BSD-2-Clause Plus Patent License](https://spdx.org/licenses/BSD-2-Clause-Patent.html).
