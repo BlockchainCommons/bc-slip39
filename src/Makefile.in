@@ -27,8 +27,8 @@ ARFLAGS = rcs
 
 OBJS = encoding.o encrypt.o mnemonics.o rs1024.o util.o
 
-.PHONY: all
-all: $(libname) test
+.PHONY: all lib
+all lib: $(libname)
 
 $(libname): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
@@ -37,19 +37,6 @@ encoding.o: encoding.h wordlist-english.h util.h
 encrypt.o: encrypt.h
 mnemonics.o: mnemonics.h util.h shard.h group.h encoding.h rs1024.h slip39-errors.h
 util.o: util.h
-
-TEST_OBJS = test.o test-utils.o
-LDFLAGS = -lbc-crypto-base -lbc-shamir
-
-test: $(libname) $(TEST_OBJS)
-
-test.o: test-utils.h
-test-utils.o: test-utils.h
-
-.PHONY: check
-check: all
-	./test
-	@echo "*** ALL TESTS PASSED ***"
 
 HEADERS = bc-slip39.h encoding.h encrypt.h group.h mnemonics.h rs1024.h shard.h slip39-errors.h util.h
 
@@ -82,8 +69,6 @@ uninstall:
 clean:
 	rm -rf $(libname)
 	rm -f $(OBJS)
-	rm -f test $(TEST_OBJS)
-	rm -rf *.dSYM
 
 .PHONY: distclean
 distclean: clean
