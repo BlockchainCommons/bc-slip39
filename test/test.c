@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <strings.h>
-#include "bc-slip39.h"
+#include "../src/bc-slip39.h"
 #include "test-utils.h"
 
 static void test_string_for_word() {
