@@ -4,21 +4,21 @@
 #include "bc-slip39.h"
 #include "test-utils.h"
 
-void test_string_for_word() {
+static void test_string_for_word() {
   assert(equal_strings(slip39_string_for_word(0), "academic"));
   assert(equal_strings(slip39_string_for_word(512), "leader"));
   assert(equal_strings(slip39_string_for_word(1023), "zero"));
   assert(equal_strings(slip39_string_for_word(1024), ""));
 }
 
-void test_word_for_string() {
+static void test_word_for_string() {
   assert(slip39_word_for_string("academic") == 0);
   assert(slip39_word_for_string("leader") == 512);
   assert(slip39_word_for_string("zero") == 1023);
   assert(slip39_word_for_string("FOOBAR") < 0);
 }
 
-void test_counts() {
+static void test_counts() {
   size_t byte_counts[] = {0, 2, 6, 8, 10, 20, 100, 102};
   size_t word_counts[] = {0, 2, 5, 7, 8, 16, 80, 82};
   for(int i = 0; i < 8; i++) {
@@ -27,7 +27,7 @@ void test_counts() {
   }
 }
 
-void test_words() {
+static void test_words() {
   uint8_t data[] = {0x00, 0x01, 0x02, 0x03, 0xaa, 0xff, 0xff, 0xee};
   size_t data_len = 8;
   size_t words_len = slip39_word_count_for_bytes(data_len);
@@ -44,7 +44,7 @@ void test_words() {
   free(output_data);
 }
 
-void test_strings() {
+static void test_strings() {
   uint16_t words[] = {0, 0, 258, 14, 687, 1023, 1006};
   size_t words_len = 7;
   char* string = slip39_strings_for_words(words, words_len);
@@ -56,7 +56,7 @@ void test_strings() {
   free(string);
 }
 
-void test_generate_and_combine() {
+static void test_generate_and_combine() {
   char* secret = "totally secret!";
   size_t secret_len = strlen(secret) + 1;
   uint8_t* secret_data = (uint8_t*)secret;
@@ -140,7 +140,7 @@ void test_generate_and_combine() {
   }
 }
 
-bool _test_combine(const char** shares_strings, size_t shares_len, char* expected) {
+static bool _test_combine(const char** shares_strings, size_t shares_len, char* expected) {
   uint16_t* shares_words[shares_len];
   size_t words_in_each_share = 0;
   for(int i = 0; i < shares_len; i++) {
@@ -185,7 +185,7 @@ bool _test_combine(const char** shares_strings, size_t shares_len, char* expecte
   return true;
 }
 
-void test_combine() {
+static void test_combine() {
   // 1. Valid mnemonic without sharing (128 bits)
   assert(_test_combine((const char*[]) {
       "duckling enlarge academic academic agency result length solution fridge kidney coal piece deal husband erode duke ajar critical decision keyboard"
