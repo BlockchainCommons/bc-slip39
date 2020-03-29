@@ -507,6 +507,7 @@ static void test_combine() {
   );
 }
 
+#if !defined(ARDUINO)
 int main() {
   test_string_for_word();
   test_word_for_string();
@@ -516,3 +517,4 @@ int main() {
   test_generate_and_combine();
   test_combine();
 }
+#endif // !defined(ARDUINO)

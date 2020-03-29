@@ -8,6 +8,7 @@
 #ifndef SHARD_H
 #define SHARD_H
 
+#include <stdint.h>
 #include <stdlib.h>
 
 typedef struct slip39_shard_struct {
