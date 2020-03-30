@@ -7,6 +7,7 @@
 
 #include "test-utils.h"
 
+#include <stdint.h>
 #include <string.h>
 #include <assert.h>
 
