@@ -11,7 +11,11 @@
 #include "encrypt.h"
 #include "slip39-errors.h"
 
+#ifdef ARDUINO
+#include "bc-shamir.h"
+#else
 #include <bc-shamir/bc-shamir.h>
+#endif
 
 #include <stdio.h>
 #include <string.h>
