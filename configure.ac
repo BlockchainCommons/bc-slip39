@@ -11,11 +11,11 @@ AC_PROG_CC
 AC_PROG_INSTALL
 
 # Checks for libraries.
-AC_CHECK_LIB(bc-crypto-base, sha1_Raw, [], [
+AC_CHECK_LIB([bc-crypto-base], [sha1_Raw], [], [
   echo "### Error! libbc-crypto-base must be installed first."
   exit -1
   ])
-AC_CHECK_LIB(bc-shamir, split_secret, [], [
+AC_CHECK_LIB([bc-shamir], [split_secret], [], [
   echo "### Error! libbc-shamir must be installed first."
   exit -1
   ])
