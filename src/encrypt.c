@@ -6,7 +6,12 @@
 //
 
 #include "encrypt.h"
+
+#ifdef ARDUINO
+#include "bc-crypto-base.h"
+#else
 #include <bc-crypto-base/bc-crypto-base.h>
+#endif
 
 #include <string.h>
 #include <stdio.h>

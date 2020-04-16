@@ -1,3 +1,0 @@
-# If we are using symbolic links for dependencies don't check the links in.
-/bc-crypto-base
-/bc-shamir
