@@ -27,13 +27,13 @@ RED=`tput setaf 1`
 GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 
-CFLAGS = -g -O0
+CFLAGS += -g -O0
 
 .PHONY: all
 all: test
 
 TEST_OBJS = test.o test-utils.o
-LDFLAGS = -lbc-crypto-base -lbc-shamir
+LDFLAGS += -lbc-crypto-base -lbc-shamir
 
 libdir = ../src
 lib = $(libdir)/$(libname)
