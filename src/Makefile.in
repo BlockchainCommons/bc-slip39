@@ -45,8 +45,8 @@ util.o: util.h
 
 HEADERS = bc-slip39.h encoding.h encrypt.h group.h mnemonics.h rs1024.h shard.h slip39-errors.h util.h
 
-libdir = $(DESTDIR)/$(prefix)/lib
-includedir = $(DESTDIR)/$(prefix)/include/$(package)
+libdir = $(DESTDIR)$(prefix)/lib
+includedir = $(DESTDIR)$(prefix)/include/$(package)
 
 .PHONY: install
 install: $(libname)
