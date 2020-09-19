@@ -169,7 +169,8 @@ int generate_shards(
     uint8_t iteration_exponent,
     slip39_shard *shards,
     uint16_t shards_size,
-    void (*random_generator)(uint8_t *, size_t)
+    void* ctx,
+    void (*random_generator)(uint8_t *, size_t, void*)
 ) {
 
     if(master_secret_length < MIN_STRENGTH_BYTES) {
@@ -188,7 +189,7 @@ int generate_shards(
 
     // assign a random identifier
     uint16_t identifier = 0;
-    random_generator((uint8_t *)(&identifier), 2);
+    random_generator((uint8_t *)(&identifier), 2, ctx);
     identifier = identifier & ((1<<15)-1);
 
     if(shards_size < total_shards) {
@@ -215,7 +216,7 @@ int generate_shards(
 
     uint8_t group_shares[master_secret_length * groups_length];
 
-    split_secret(group_threshold, groups_length, encrypted_master_secret, master_secret_length, group_shares, random_generator);
+    split_secret(group_threshold, groups_length, encrypted_master_secret, master_secret_length, group_shares, ctx, random_generator);
 
     uint8_t *group_share = group_shares;
 
@@ -224,7 +225,7 @@ int generate_shards(
 
     for(uint8_t i=0; i<groups_length; ++i, group_share += master_secret_length) {
         uint8_t member_shares[master_secret_length *groups[i].count];
-        split_secret(groups[i].threshold, groups[i].count, group_share, master_secret_length, member_shares, random_generator);
+        split_secret(groups[i].threshold, groups[i].count, group_share, master_secret_length, member_shares, ctx, random_generator);
 
         uint8_t *value = member_shares;
         for(uint8_t j=0; j< groups[i].count; ++j, value += master_secret_length) {
@@ -274,7 +275,8 @@ int slip39_generate(
     uint32_t *mnemonic_length,
     uint16_t *mnemonics,
     uint32_t buffer_size,
-    void (*random_generator)(uint8_t *, size_t)
+    void* ctx,
+    void (*random_generator)(uint8_t *, size_t, void*)
 ) {
     if(master_secret_length < MIN_STRENGTH_BYTES) {
         return ERROR_SECRET_TOO_SHORT;
@@ -300,7 +302,7 @@ int slip39_generate(
 
     // generate shards
     total_shards = generate_shards(group_threshold, groups, groups_length, master_secret, master_secret_length,
-        passphrase, iteration_exponent, shards, total_shards, random_generator);
+        passphrase, iteration_exponent, shards, total_shards, ctx, random_generator);
 
     if(total_shards < 0) {
         error = total_shards;

@@ -88,6 +88,7 @@ static void test_generate_and_combine() {
     &words_in_each_share,
     shares_buffer,
     shares_buffer_size,
+    NULL,
     fake_random
   );
   assert(result == share_count);

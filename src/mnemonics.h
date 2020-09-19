@@ -74,7 +74,8 @@ int slip39_generate(
     uint32_t *mnemonic_length,
     uint16_t *mnemonics,
     uint32_t buffer_size,
-    void (*random_generator)(uint8_t *, size_t)
+    void* ctx,
+    void (*random_generator)(uint8_t *, size_t, void*)
 );
 
 
