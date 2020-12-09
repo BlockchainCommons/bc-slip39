@@ -1,5 +1,7 @@
 # [Blockchain Commons SLIP-39](https://github.com/BlockchainCommons/bc-slip39)
 
+### _by Wolf McNally and Christopher Allen, with Chris Howe_
+
 **Implementation of SLIP-39 Shamir Secret Sharing standard for use in [Blockchain Commons](https://www.BlockchainCommons.com) Software Projects**
 
 ## Prerequisites
@@ -7,7 +9,7 @@
 * If [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base) is not installed, the `configure` step below will fail.
 * If [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir) is not installed, the `configure` step below will fail.
 
-## Installation
+## Installation Instructions
 
 This sequence also runs the module's unit tests.
 
@@ -39,7 +41,7 @@ $ make check
 $ sudo make install
 ```
 
-## Use
+## Usage Instructions
 
 1. Link against `libbc-slip39.a`, `libbc-shamir.a` and `libbc-crypto-base.a`.
 2. Include the umbrella header in your code:
