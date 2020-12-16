@@ -1,6 +1,8 @@
 # [Blockchain Commons SLIP-39](https://github.com/BlockchainCommons/bc-slip39)
 
-### _by Wolf McNally and Christopher Allen, with Chris Howe_
+### _by [Wolf McNally](https://www.github.com/wolfmcnally) and [Christopher Allen](https://www.github.com/ChristopherA) with [Chris Howe](https://www.github.com/howech)_
+
+* <img src="https://github.com/BlockchainCommons/crypto-commons/blob/master/images/logos/crypto-commons-super-simple.png" width=16 valign="bottom">&nbsp;&nbsp; ***part of the [crypto commons](https://github.com/BlockchainCommons/crypto-commons/blob/master/README.md) technology family***
 
 **Implementation of SLIP-39 Shamir Secret Sharing standard for use in [Blockchain Commons](https://www.BlockchainCommons.com) Software Projects**
 
