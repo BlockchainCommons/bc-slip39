@@ -6,7 +6,7 @@
 
 **Implementation of SLIP-39 Shamir Secret Sharing standard for use in [Blockchain Commons](https://www.BlockchainCommons.com) Software Projects**
 
-_This library has been deprecated due to the fact that SLIP-39 does not round trip with BIP-39. For Shamir's Secret Sharing, we have replaced this with the newer [bc-sskr](https://github.com/BlockchainCommons/bc-sskr) library, which has received a full [security review](https://github.com/BlockchainCommons/bc-sskr/blob/master/SECURITY-REVIEW.md) and is ready for production deplotment._
+_This library has been deprecated due to the fact that SLIP-39 does not round trip with BIP-39. For Shamir's Secret Sharing, we have replaced this with the newer [bc-sskr](https://github.com/BlockchainCommons/bc-sskr) library, which has received a full [security review](https://github.com/BlockchainCommons/bc-sskr/blob/master/SECURITY-REVIEW.md) and is ready for production deployment._
 
 ## Prerequisites
 
